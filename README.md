@@ -1,19 +1,76 @@
-# automacaoGlpi
-Automação GLPI - Distribuição automatica
-<h2>O Problema</h2>
-<p>A distribuição manual de novos chamados GLPI pode ser um gargalo, consumindo tempo valioso da equipe, exigindo monitoramento constante e potencialmente atrasando o primeiro atendimento.</p>
+# 🤖 Automação de Distribuição de Chamados – GLPI
 
-<h2>A Solução</h2>
-<p>Este script oferece uma abordagem automatizada:</p>
-<ul>
-    <li><strong>Monitoramento Contínuo:</strong> Conecta-se periodicamente (intervalo configurável, ex: a cada 30 minutos) à API do GLPI para identificar chamados recém-criados que ainda aguardam atribuição.</li>
-    <li><strong>Distribuição Equitativa:</strong> Aplica uma lógica de distribuição (ex: round-robin) para encaminhar os chamados de forma justa entre os membros de um grupo de suporte específico.</li>
-    <li><strong>Agilidade no Atendimento:</strong> Assegura que os chamados sejam direcionados rapidamente, reduzindo o tempo ocioso e melhorando a velocidade da resposta inicial.</li>
-</ul>
+Este repositório contém uma automação desenvolvida para otimizar o processo de **distribuição de chamados** no sistema **GLPI** dentro da empresa.  
+A rotina, que antes era feita manualmente, agora é realizada automaticamente a cada **30 minutos**, garantindo **agilidade**, **equidade** e **eficiência operacional**. ⏱️⚙️
 
-<h2><span style="color: #3498DB;">Benefícios Principais</span></h2>
-<ul>
-    <li>✅ <strong>Otimização de Tempo:</strong> Elimina a necessidade de distribuição manual.</li>
-    <li>🚀 <strong>Aumento da Eficiência:</strong> Agiliza o processo de atribuição de chamados.</li>
-    <li>⚖️ <strong>Consistência:</strong> Garante uma distribuição padronizada e justa.</li>
-</ul>
+---
+
+## 🧠 Objetivo
+
+Automatizar a atribuição de chamados com status `"Novo"` (`status: 1`) para um grupo específico de técnicos, de forma **igualitária**, com base na quantidade atual de chamados atribuídos a cada um.
+
+---
+
+## ✅ Funcionalidades
+
+- 🔐 Autenticação segura via App-Token e credenciais do GLPI  
+- 🧾 Consulta de chamados com status **Novo**  
+- 👥 Identificação de técnicos pertencentes a um grupo específico  
+- 📊 Verificação de quantidade de chamados atribuídos por técnico  
+- 🧮 Ordenação por menor carga atual de chamados  
+- 🎯 Atribuição automática dos chamados ao técnico com menor fila  
+- 🔁 Execução programada a cada 30 minutos (via `crontab`, `Task Scheduler`, etc)
+
+---
+
+## 🧰 Tecnologias Utilizadas
+
+- 🐍 **Python 3**
+- 🌐 `requests` para chamadas HTTP à API GLPI
+- 📁 JSON para leitura de credenciais
+- 🔄 Integração com **API REST do GLPI**
+
+---
+
+## 🗂️ Estrutura do Projeto
+
+```
+bot_glpi_base/
+├── config/
+│   └── credenciais_glpi.json   # Arquivo com as credenciais da API
+├── main.py                     # Script principal da automação
+```
+
+---
+
+## 🔐 Configuração
+
+Crie um arquivo `credenciais_glpi.json` dentro da pasta `config/` com o seguinte conteúdo:
+
+```json
+{
+  "Url_Base": "https://seu-glpi.com/apirest.php",
+  "App-Token": "SEU_APP_TOKEN",
+  "User": "usuario",
+  "Senha": "senha"
+}
+```
+
+> ⚠️ **Importante:** Nunca envie esse arquivo para repositórios públicos!
+
+---
+
+## ⏱️ Agendamento da Automação
+
+Para rodar a automação a cada 30 minutos, você pode configurar um agendador.  
+Exemplo com `crontab` (Linux/macOS):
+
+```bash
+*/30 * * * * /usr/bin/python3 /caminho/para/seu/script/main.py
+```
+
+---
+
+## 🙋‍♀️ Autor(a)
+
+Feito com 💙 por [@evelynct](https://github.com/evelynct)
